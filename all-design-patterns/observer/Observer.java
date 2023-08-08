@@ -4,7 +4,6 @@ public interface Observer {
     public void notifySunRose();
     public void notifySunSet();
     public boolean isOutdoors();
-    public void goOutdoors();
     public void goIndoors();
     public boolean isFeelingWarm();
     public boolean isFeelingTired();

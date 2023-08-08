@@ -9,130 +9,87 @@ import java.util.List;
  * Time: 9:18:51 PM
  * To change this template use pre_refactoring.File | Settings | pre_refactoring.File Templates.
  */
-public class Directory implements Composite{
+public class Directory implements FileSystem {
     private final String name;
-    private final List<File> files;
-    private final List<Directory> directories;
+    private final List<FileSystem> fileSystems;
     private Directory parent;
 
     public String getName() {
         return name;
     }
 
-    public Directory(String name, List<File> files, List<Directory> directories) {
+    public Directory(String name, List<FileSystem> fileSystems) {
         this.name = name;
-        this.files = files;
-        this.directories = directories;
+        this.fileSystems = fileSystems;
 
-        for (Directory directory : directories) {
-            directory.setParent(this);
+        for (FileSystem fileSystem : fileSystems) {
+            fileSystem.setParent(this);
         }
-
-        for (File file : files) {
-            file.setParent(this);
-        }
-    }
-
-    public int getSize(Directory directoryToSize) {
-        int sum = 0;
-
-        for (File file : directoryToSize.getFiles()) {
-            sum += file.getSize();
-        }
-
-        for (Directory directory : directoryToSize.getDirectories()) {
-            sum += getSize(directory);
-        }
-
-        return sum;
     }
 
     public int getSize() {
-        return getSize(this);
+        int sum = 0;
+
+        for (FileSystem fileSystem : this.getFileSystems()) {
+            sum += fileSystem.getSize();
+        }
+
+        return sum;
     }
 
     public void setParent(Directory directory) {
         this.parent = directory;
     }
 
-    public void delete(Directory directoryToDelete) {
-        while (directoryToDelete.getFiles().size() > 0) {
-            File file = directoryToDelete.getFiles().get(0);
-            file.getParent().removeEntry(file);
-        }
-
-        while (directoryToDelete.getDirectories().size() > 0) {
-            Directory directory = directoryToDelete.getDirectories().get(0);
-            delete(directory);
-        }
-
-        directoryToDelete.getParent().removeEntry(directoryToDelete);
-    }
 
     public void delete() {
-        delete(this);
-    }
-
-    public void removeEntry(File file) {
-        files.remove(file);
-    }
-
-    public void removeEntry(Directory directory) {
-        directories.remove(directory);
-    }
-
-    public void add(Directory directory) {
-        directories.add(directory);
-    }
-
-    private boolean fileExists(String name, Directory directoryToSearch) {
-        for (File file : directoryToSearch.getFiles()) {
-            if (file.getName().equals(name)) {
-                return true;
+        while (this.getFileSystems().size() > 0) {
+            FileSystem fileSystem = this.getFileSystems().get(0);
+            if(fileSystem instanceof File){
+                fileSystem.getParent().removeEntry(fileSystem);
+            }
+            else{
+                Directory dir = (Directory) fileSystem;
+                dir.delete();
             }
         }
+        this.getParent().removeEntry(this);
+    }
 
-        for (Directory directory : directoryToSearch.getDirectories()) {
-            if (fileExists(name, directory))
-                return true;
+//    public void removeEntry(File file) {
+//        files.remove(file);
+//    }
+
+    public void removeEntry(FileSystem fileSystem) {
+        fileSystems.remove(fileSystem);
+    }
+
+    public void add(FileSystem fileSystem) {
+        fileSystems.add(fileSystem);
+    }
+
+    private boolean fileSystemExists(String name, Directory directoryToSearch, String source) {
+        if(source.equals("file")){
+            for (FileSystem file : directoryToSearch.getFileSystems()) {
+                if (file.getName().equals(name)) {
+                    return true;
+                }
+            }
         }
-
         return false;
     }
 
     public boolean fileExists(String name) {
-        return fileExists(name, this);
+        return fileSystemExists(name, this, "file");
     }
 
     public boolean directoryExists(String name) {
-        return directoryExists(name, this);
+        return fileSystemExists(name, this, "dir");
     }
 
-    private boolean directoryExists(String name, Directory directoryToSearch) {
-        if (directoryToSearch.getName().equals(name))
-            return true;
 
-        for (Directory directory : directoryToSearch.getDirectories()) {
-            if (directory.getName().equals(name)) {
-                return true;
-            }
-        }
-
-        for (Directory directory : directories) {
-            if (directory.fileExists(name)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public List<File> getFiles() {
-        return files;
-    }
-
-    public List<Directory> getDirectories() {
-        return directories;
+    public List<FileSystem> getFileSystems() {
+        return fileSystems;
     }
 
     public Directory getParent() {

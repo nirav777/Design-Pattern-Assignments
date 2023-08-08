@@ -7,7 +7,7 @@ package net.media.training.designpattern.composite;
  * Time: 9:18:04 PM
  * To change this template use pre_refactoring.File | Settings | pre_refactoring.File Templates.
  */
-public class File implements Composite{
+public class File implements FileSystem {
     private final String name;
     private int size;
     private Directory parent;

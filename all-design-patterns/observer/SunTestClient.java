@@ -24,7 +24,6 @@ public class SunTestClient {
         this.cat = new Cat();
         this.dog = new Dog();
         this.robot = new Robot();
-        this.sun = new Sun(robot, person, dog, cat);
     }
 
     public void aFewCharactersGoOutdoors() {
@@ -50,36 +49,25 @@ public class SunTestClient {
     }
 
     public boolean charactersWhoWereOutAreFeelTired() {
-        if (person.isOutdoors() && !person.isFeelingTired())
-            return false;
-        if (robot.isOutdoors() && !robot.isFeelingTired())
-            return false;
-        if (dog.isOutdoors() && !dog.isFeelingTired())
-            return false;
-        if (dog.isOutdoors() && !dog.isFeelingTired())
-            return false;
+
+        for(Observer observer : sun.observerList){
+            if (observer.isOutdoors() && !observer.isFeelingTired())
+                return false;
+        }
 
         return true;
     }
 
     public boolean outdoorsCharactersFeelWarm() {
-        if (person.isOutdoors() && !person.isFeelingWarm())
-            return false;
-        if (cat.isOutdoors() && !cat.isFeelingWarm())
-            return false;
-        if (dog.isOutdoors() && !dog.isFeelingWarm())
-            return false;
-        if (robot.isOutdoors() && !robot.isFeelingWarm())
-            return false;
+        for(Observer observer : sun.observerList){
+            if (observer.isOutdoors() && !observer.isFeelingTired())
+                return false;
+        }
 
-        if (!person.isOutdoors() && person.isFeelingWarm())
-            return false;
-        if (!cat.isOutdoors() && cat.isFeelingWarm())
-            return false;
-        if (!dog.isOutdoors() && dog.isFeelingWarm())
-            return false;
-        if (!robot.isOutdoors() && robot.isFeelingWarm())
-            return false;
+        for(Observer observer : sun.observerList){
+            if (!observer.isOutdoors() && observer.isFeelingTired())
+                return false;
+        }
 
         return true;
     }

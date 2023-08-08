@@ -1,5 +1,7 @@
 package net.media.training.designpattern.observer;
 
+import java.util.*;
+
 /**
  * Created by IntelliJ IDEA.
  * User: joelrosario
@@ -9,6 +11,8 @@ package net.media.training.designpattern.observer;
  */
 public class Game {
     private Sun sun;
+
+    List<Observer> observerList = new ArrayList<>();
 
     public Game(Sun sun) {
         this.sun = sun;
@@ -20,4 +24,13 @@ public class Game {
         } else
             sun.rise();
     }
+
+    public void addObserver(Observer observer){
+        observerList.add(observer);
+    }
+
+    public void removeObserver(Observer observer){
+        observerList.remove(observer);
+    }
+
 }
