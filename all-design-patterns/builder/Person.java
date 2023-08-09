@@ -1,4 +1,4 @@
-package net.media.training.designpattern.builder;
+package net.media.training.designpattern.solutions.builder;
 
 /**
  * Created by IntelliJ IDEA.

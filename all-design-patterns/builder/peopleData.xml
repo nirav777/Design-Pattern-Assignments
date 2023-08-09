@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<People number="2">
+    <Person id="20" name="siddhesh">
+        <Address>
+            <City>Dombivli</City>
+            <Country>India</Country>
+        </Address>
+    </Person>
+
+    <Person id="30" name="Mahesh">
+        <Address>
+            <City>null</City>
+            <Country>India</Country>
+        </Address>
+    </Person>
+</People>

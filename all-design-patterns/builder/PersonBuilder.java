@@ -1,32 +1,32 @@
-package net.media.training.designpattern.builder;
+package net.media.training.designpattern.solutions.builder;
 
 public class PersonBuilder {
-    int id;
-    String name, city, country;
+    private String name;
+    private int id;
+    private String city;
+    private String country;
 
-    public PersonBuilder addId(int id){
+    PersonBuilder(String name){
+        this.name = name;
+    }
+
+    PersonBuilder setId(int id){
         this.id = id;
         return this;
     }
 
-    public PersonBuilder addName(String name){
-        this.name = name;
-        return this;
-    }
-
-    public PersonBuilder addCity(String city){
+    PersonBuilder setCity(String city){
         this.city = city;
         return this;
     }
 
-    public PersonBuilder addCountry(String country){
+    PersonBuilder setCountry(String country){
         this.country = country;
         return this;
     }
 
-    public Person build(){
-        Person person = new Person(name, id, city, country);
-        return person;
+    Person getPerson() {
+        return new Person(name, id, city,country);
     }
 
 }
